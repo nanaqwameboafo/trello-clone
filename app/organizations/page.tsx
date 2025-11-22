@@ -48,11 +48,6 @@ export default function OrganizationsPage() {
       })) || []
       
       setOrganizations(orgs)
-
-      // Auto-redirect if only one org
-      if (orgs.length === 1) {
-        router.push(`/organizations/${orgs[0].id}`)
-      }
     } catch (error) {
       console.error('Error fetching organizations:', error)
     } finally {
