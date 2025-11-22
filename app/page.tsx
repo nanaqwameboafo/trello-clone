@@ -67,10 +67,7 @@ export default function OrganizationsPage() {
       
       setOrganizations(orgs)
 
-      // Auto-redirect if only one org
-      if (orgs.length === 1) {
-        router.push(`/organizations/${orgs[0].id}`)
-      }
+      // REMOVED auto-redirect - let user stay on this page
     } catch (error) {
       console.error('Error fetching organizations:', error)
     } finally {
@@ -100,13 +97,18 @@ export default function OrganizationsPage() {
         .insert({ 
           organization_id: org.id, 
           user_id: user.id, 
-          role: 'owner' 
+          role: 'admin' // Changed from 'owner' to 'admin'
         })
 
       if (memberError) throw memberError
 
       setShowCreateModal(false)
       setNewOrgName('')
+      
+      // Refresh organizations list
+      await fetchOrganizations()
+      
+      // Navigate to new organization
       router.push(`/organizations/${org.id}`)
     } catch (error: any) {
       console.error('Error creating organization:', error)
